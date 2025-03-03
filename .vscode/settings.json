@@ -1,0 +1,13 @@
+{
+  "dotnet.defaultSolution": "backend.sln",
+  "editor.tabSize": 2, // Số khoảng cách khi nhấn Tab
+  "editor.insertSpaces": true, // Dùng dấu cách thay vì Tab
+  "editor.detectIndentation": false, // Không tự động thay đổi indent
+  "[javascriptreact]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  }
+}
