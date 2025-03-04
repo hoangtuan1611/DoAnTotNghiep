@@ -8,6 +8,8 @@ namespace backend.backend.Infrastructure.Data
   {
     public DbSet<Lecturer> Lecturers { get; set; }
     public DbSet<Course> Courses { get; set; }
+    public DbSet<StudyClass> Classes { get; set; }
+    public DbSet<AttendanceLog> attendanceLogs { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

@@ -11,6 +11,5 @@ namespace backend.backend.Core.Entities
     public string Email { get; set; }
 
     public ICollection<Course> Courses { get; set; }
-    public ICollection<StudyClass> Classes { get; set; }
   }
 }

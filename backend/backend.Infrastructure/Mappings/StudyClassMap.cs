@@ -20,11 +20,6 @@ namespace backend.backend.Infrastructure.Mappings
       builder.Property(c => c.MaxStudents)
         .IsRequired();
 
-      builder.HasOne(c => c.Lecturer)
-        .WithMany(l => l.Classes)
-        .HasForeignKey(c => c.LecturerId)
-        .OnDelete(DeleteBehavior.Cascade);
-
       builder.HasMany(c => c.Courses)
         .WithMany(c => c.Classes)
          .UsingEntity<Dictionary<string, object>>(

@@ -16,8 +16,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
+builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ILecturerService, LecturerService>();
-builder.Services.AddScoped<ILecturerRepository, LecturerRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

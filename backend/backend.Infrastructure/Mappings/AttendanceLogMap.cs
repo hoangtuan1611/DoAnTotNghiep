@@ -20,6 +20,10 @@ namespace backend.backend.Infrastructure.Mappings
       builder.Property(a => a.StudentCount)
         .IsRequired();
 
+      builder.Property(a => a.ImgPath)
+        .HasMaxLength(255)
+        .HasColumnType("varchar(255)");
+
       builder.HasOne(a => a.StudyClass)
         .WithMany(c => c.AttendanceLog)
         .HasForeignKey(a => a.ClassId)

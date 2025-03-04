@@ -25,7 +25,7 @@ namespace backend.backend.Api.Controllers
     [HttpGet]
     public async Task<IActionResult> GetLecturer()
     {
-      var result = await _lecturerService.GetAllLecturers();
+      var result = await _lecturerService.GetAll();
       var lecturerDtos = _mapper.Map<IEnumerable<LecturerDto>>(result);
       return Ok(lecturerDtos);
     }
@@ -33,7 +33,7 @@ namespace backend.backend.Api.Controllers
     [HttpGet("{id}")]
     public async Task<IActionResult> GetLecturerById(int id)
     {
-      var result = await _lecturerService.GetLecturerById(id);
+      var result = await _lecturerService.GetById(id);
       if (result == null)
       {
         return NotFound($"Lecturer with Id: {id} not found");
@@ -56,7 +56,7 @@ namespace backend.backend.Api.Controllers
       try
       {
         var lecturer = _mapper.Map<Lecturer>(lecturerDto);
-        var result = await _lecturerService.CreateLecturer(lecturer);
+        var result = await _lecturerService.Create(lecturer);
         return result ? CreatedAtAction(nameof(GetLecturerById), new { id = lecturer.Id }, lecturerDto) : BadRequest("Failed to create lecturer");
       }
       catch (DbUpdateException ex)
@@ -99,7 +99,7 @@ namespace backend.backend.Api.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteLecturer(int id)
     {
-      var result = await _lecturerService.DeleteLecturer(id);
+      var result = await _lecturerService.Delete(id);
       return result ? Ok() : BadRequest();
     }
   }
