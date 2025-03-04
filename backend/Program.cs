@@ -19,6 +19,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ILecturerService, LecturerService>();
+builder.Services.AddScoped<IClassService, ClassService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

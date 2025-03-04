@@ -21,6 +21,12 @@ namespace backend.backend.Core.Services
       return await _repository.GetByIdAsync(id);
     }
 
+    public virtual async Task<bool> Update(int id, T model)
+    {
+      await Task.CompletedTask;
+      throw new NotImplementedException();
+    }
+
     public async Task<bool> Create(T model)
     {
       await _repository.AddAsync(model);

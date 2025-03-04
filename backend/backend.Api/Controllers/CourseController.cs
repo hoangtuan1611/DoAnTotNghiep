@@ -8,9 +8,9 @@ namespace backend.backend.Api.Controllers
 {
   [ApiController]
   [Route("api/[controller]")]
-  public class LecturerController : BaseController<Lecturer, ILecturerService, LecturerDto>
+  public class CourseController : BaseController<Course, ICourseService, CourseDto>
   {
-    public LecturerController(ILecturerService service, IMapper mapper) : base(service, mapper)
+    public CourseController(ICourseService service, IMapper mapper) : base(service, mapper)
     {
     }
   }

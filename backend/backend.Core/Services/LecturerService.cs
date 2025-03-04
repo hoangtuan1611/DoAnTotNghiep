@@ -12,7 +12,7 @@ namespace backend.backend.Core.Services
       _repository = repository;
     }
 
-    public async Task<bool> UpdateLecturer(int id, Lecturer lecturer)
+    public override async Task<bool> Update(int id, Lecturer lecturer)
     {
       if (id != lecturer.Id)
       {

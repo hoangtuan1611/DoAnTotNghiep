@@ -10,6 +10,12 @@ namespace backend.backend.Core.Mappers
     {
       CreateMap<Lecturer, LecturerDto>();
       CreateMap<LecturerDto, Lecturer>();
+      CreateMap<StudyClass, ClassDto>();
+      CreateMap<ClassDto, StudyClass>();
+      CreateMap<Course, CourseDto>();
+      CreateMap<CourseDto, Course>();
+      CreateMap<AttendanceLog, AttendanceLogDto>();
+      CreateMap<AttendanceLogDto, AttendanceLog>();
     }
   }
 }

@@ -5,6 +5,7 @@ namespace backend.backend.Core.Interfaces
     Task<IEnumerable<T>> GetAll();
     Task<T> GetById(int id);
     Task<bool> Create(T model);
+    Task<bool> Update(int id, T model);
     Task<bool> Delete(int id);
   }
 }
