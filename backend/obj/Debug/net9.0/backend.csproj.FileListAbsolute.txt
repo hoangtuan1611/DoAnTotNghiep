@@ -555,3 +555,4 @@ E:\Demo\DoAnTotNghiep\backend\obj\Debug\net9.0\refint\backend.dll
 E:\Demo\DoAnTotNghiep\backend\obj\Debug\net9.0\backend.pdb
 E:\Demo\DoAnTotNghiep\backend\obj\Debug\net9.0\backend.genruntimeconfig.cache
 E:\Demo\DoAnTotNghiep\backend\obj\Debug\net9.0\ref\backend.dll
+E:\Demo\DoAnTotNghiep\backend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -29,5 +29,16 @@ namespace backend.backend.Core.Services
       await _repository.UpdateAsync(result);
       return true;
     }
+
+    public async Task<bool> ValidateUser(string username, string password)
+    {
+      var result = await _repository.GetAllAsync();
+      var user = result.FirstOrDefault(u => u.Username == username);
+      if (user != null && user.Password == password)
+      {
+        return true;
+      }
+      return false;
+    }
   }
 }
