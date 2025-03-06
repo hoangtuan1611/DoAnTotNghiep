@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Login() {
+function Register() {
   const api = import.meta.env.VITE_API_LECTURER;
-  const authen_api = `${api}/login`;
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
     try {
-      const result = await axios.post(authen_api, values);
-      if (result.data) {
-        localStorage.setItem("Token", result.data.token);
-        navigate("/home-page");
+      const result = await axios.post(api, values);
+      if (
+        result.data.username === values.username &&
+        result.data.password === values.password
+      ) {
+        alert("Đăng ký thành công");
+        navigate("/");
       }
     } catch (error) {
-      alert("Đăng nhập thất bại");
+      alert("Đăng ký thất bại");
     }
   };
 
@@ -37,10 +39,10 @@ function Login() {
           className="text-2xl font-bold text-center w-2xs"
           style={{ paddingBottom: "2rem", color: "#555" }}
         >
-          Đăng Nhập
+          Đăng Ký
         </h2>
         <Form
-          name="login"
+          name="register"
           initialValues={{
             remember: true,
           }}
@@ -50,6 +52,22 @@ function Login() {
           }}
           onFinish={onFinish}
         >
+          <Form.Item
+            name="accountName"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Account Name!",
+              },
+            ]}
+            style={{ marginBottom: "1rem" }}
+          >
+            <Input
+              style={{ padding: "0.5rem" }}
+              prefix={<UserOutlined />}
+              placeholder="Tên tài khoản"
+            />
+          </Form.Item>
           <Form.Item
             name="username"
             rules={[
@@ -63,7 +81,7 @@ function Login() {
             <Input
               style={{ padding: "0.5rem" }}
               prefix={<UserOutlined />}
-              placeholder="Email"
+              placeholder="Tên đăng nhập"
             />
           </Form.Item>
           <Form.Item
@@ -83,21 +101,11 @@ function Login() {
             />
           </Form.Item>
           <Form.Item>
-            <Flex justify="space-between" align="center">
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-              <a href="" style={{ color: "#555" }}>
-                Quên mật khẩu
-              </a>
-            </Flex>
-          </Form.Item>
-          <Form.Item>
             <Button block type="primary" htmlType="submit">
-              Đăng nhập
+              Đăng ký
             </Button>
             <Link
-              to="/register"
+              to="/"
               style={{
                 display: "block",
                 textAlign: "center",
@@ -105,7 +113,7 @@ function Login() {
                 marginTop: "0.2rem",
               }}
             >
-              Chưa có tài khoản? Đăng ký
+              Đã có tài khoản? Đăng nhập
             </Link>
           </Form.Item>
         </Form>
@@ -114,4 +122,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
