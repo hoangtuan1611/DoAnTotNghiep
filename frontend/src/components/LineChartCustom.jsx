@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-function Chart({ data }) {
+function LineChartCustom({ data }) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data}>
@@ -28,4 +28,4 @@ function Chart({ data }) {
   );
 }
 
-export default Chart;
+export default LineChartCustom;

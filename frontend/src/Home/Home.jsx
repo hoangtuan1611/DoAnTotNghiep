@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UserCheck, Activity, Clock } from "lucide-react";
 import SideBar from "../components/SideBar";
 import { Layout } from "antd";
-import Chart from "../components/Chart";
+import LineChartCustom from "../components/LineChartCustom";
 
 function Home() {
   const [isStreaming, setIsStreaming] = useState(false);
@@ -103,7 +103,7 @@ function Home() {
             <div className="chart flex-1 w-[70vw] bg-white/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 p-3 m-auto">
               <p className="mb-3 text-base text-indigo-900">Biểu đồ theo dõi</p>
               <div className="h-72">
-                <Chart data={historicalData} />
+                <LineChartCustom data={historicalData} />
               </div>
             </div>
           </div>

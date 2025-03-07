@@ -13,6 +13,15 @@ import {
 
 const { Content, Sider } = Layout;
 
+const siderStyle = {
+  height: "100vh",
+  position: "sticky",
+  insetInlineStart: 0,
+  top: 0,
+  bottom: 0,
+  backgroundColor: "#212529",
+};
+
 const SideBar = React.memo(() => {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
@@ -62,13 +71,7 @@ const SideBar = React.memo(() => {
     <Sider
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
-      style={{
-        backgroundColor: "#212529",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        height: "100vh",
-      }}
+      style={siderStyle}
     >
       <div>
         <div>

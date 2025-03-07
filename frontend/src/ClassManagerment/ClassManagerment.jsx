@@ -2,7 +2,7 @@ import { Layout, Tabs, List, DatePicker } from "antd";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import SideBar from "../components/SideBar";
-import Chart from "../components/Chart";
+import LineChartCustom from "../components/LineChartCustom";
 import AddClass from "../AddNew/AddClass";
 
 const classList = [
@@ -114,7 +114,7 @@ export const HistoryContent = () => {
           Thống kê điểm danh lớp {historyList[0].class}
         </p>
         <div className="h-72">
-          <Chart data={historyList[0].data} />
+          <LineChartCustom data={historyList[0].data} />
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@ function ClassManagerment() {
   return (
     <Layout style={{ minHeight: "100vh", minWidth: "100vw", display: "flex" }}>
       <SideBar />
-      <Layout style={{ flex: 1, marginLeft: "5rem" }}>
+      <Layout style={{ flex: 1 }}>
         <div className="h-auto bg-gradient-to-br from-blue-50 to-indigo-50 p-6">
           <div className="flex justify-between items-center">
             <h1 className="text-indigo-900 font-bold text-3xl">
