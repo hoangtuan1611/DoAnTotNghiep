@@ -10,6 +10,7 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
 } from "@ant-design/icons";
+import { motion } from "framer-motion";
 
 const { Content, Sider } = Layout;
 
@@ -24,6 +25,7 @@ const siderStyle = {
 
 const SideBar = React.memo(() => {
   const [collapsed, setCollapsed] = useState(true);
+  // const [selectedKey, setSelectedKey] = useState("1");
   const navigate = useNavigate();
 
   function getItem(label, key, icon, children) {
@@ -84,7 +86,16 @@ const SideBar = React.memo(() => {
               fontSize: "1.5rem",
             }}
           >
-            {!collapsed && <p style={{ color: "white" }}>Erateq</p>}
+            {!collapsed && (
+              <motion.p
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: collapsed ? 0 : 1, x: collapsed ? -10 : 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ color: "white", whiteSpace: "nowrap" }}
+              >
+                Manager
+              </motion.p>
+            )}
             <Button
               style={{
                 fontSize: "1.5rem",
@@ -102,7 +113,7 @@ const SideBar = React.memo(() => {
           <div>
             <Menu
               theme="dark"
-              // defaultSelectedKeys={["1"]}
+              // defaultSelectedKeys={[selectedKey]}
               mode="inline"
               items={items}
               style={{ backgroundColor: "#212529" }}

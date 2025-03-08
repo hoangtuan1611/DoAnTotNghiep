@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import SideBar from "../components/SideBar";
 import LineChartCustom from "../components/LineChartCustom";
 import AddClass from "../AddNew/AddClass";
+import AddCourse from "../AddNew/AddCourse";
 
 const classList = [
   {
@@ -84,8 +85,9 @@ export const HistoryContent = () => {
           <DatePicker
             style={{ margin: "1rem" }}
             format={"DD-MM-YYYY"}
+            inputReadOnly={true}
             allowClear={false}
-            defaultValue={dayjs("06-03-2025")}
+            defaultValue={dayjs()}
           />
         </div>
         <div className="ml-5 mr-5">
@@ -135,7 +137,8 @@ const items = [
 ];
 
 function ClassManagerment() {
-  const [openModal, setOpenModal] = useState(false);
+  const [openClassModal, setOpenClassModal] = useState(false);
+  const [openCourseModal, setOpenCourseModal] = useState(false);
 
   return (
     <Layout style={{ minHeight: "100vh", minWidth: "100vw", display: "flex" }}>
@@ -146,13 +149,22 @@ function ClassManagerment() {
             <h1 className="text-indigo-900 font-bold text-3xl">
               Quản lý lớp học
             </h1>
-            <button
-              onClick={() => setOpenModal(true)}
-              className="bg-blue-500 w-32 text-white p-2.5 mt-2.5 rounded-md"
-            >
-              Thêm mới
-            </button>
-            <AddClass open={openModal} setOpen={setOpenModal} />
+            <div>
+              <button
+                onClick={() => setOpenClassModal(true)}
+                className="bg-blue-500 w-32 text-white p-2.5 mt-2.5 mr-2.5 rounded-md"
+              >
+                Thêm Lớp
+              </button>
+              <AddClass open={openClassModal} setOpen={setOpenClassModal} />
+              <button
+                onClick={() => setOpenCourseModal(true)}
+                className="bg-blue-500 w-32 text-white p-2.5 mt-2.5 rounded-md"
+              >
+                Thêm khóa học
+              </button>
+              <AddCourse open={openCourseModal} setOpen={setOpenCourseModal} />
+            </div>
           </div>
           <div className="tab">
             <Tabs defaultActiveKey="1" items={items} />

@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace backend.backend.Core.Interfaces
 {
   public interface IBaseRepository<T> where T : class
@@ -7,5 +9,6 @@ namespace backend.backend.Core.Interfaces
     Task AddAsync(T model);
     Task UpdateAsync(T model);
     Task DeleteAsync(int id);
+    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
   }
 }

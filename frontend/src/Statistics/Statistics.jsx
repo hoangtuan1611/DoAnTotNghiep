@@ -1,17 +1,21 @@
 import { Layout, DatePicker, Button } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import SideBar from "../components/SideBar";
 import dayjs from "dayjs";
 import LineChartCustom from "../components/LineChartCustom";
 import BarChartCustom from "../components/BarChartCustom";
 
-const className = ["CTK45A", "CTK45B", "CTK46A", "CTK46B"];
-const courseName = [
-  "Lập trình Python",
-  "Hướng đối tượng",
-  "Ứng dụng desktop",
-  "Dữ liệu và thuật giải",
-];
+const apiCourse = import.meta.env.VITE_API_COURSE;
+const apiClass = import.meta.env.VITE_API_CLASS;
+
+// const className = ["CTK45A", "CTK45B", "CTK46A", "CTK46B"];
+// const courseName = [
+//   "Lập trình Python",
+//   "Hướng đối tượng",
+//   "Ứng dụng desktop",
+//   "Dữ liệu và thuật giải",
+// ];
 const dataChart = [
   { time: "Buổi 2 (02/02/2025)", count: "30" },
   { time: "Buổi 3 (03/02/2025)", count: "80" },
@@ -22,6 +26,26 @@ const dataChart = [
 ];
 
 function Statistics() {
+  const [courseName, setCourseName] = useState([]);
+  const [className, setClassName] = useState([]);
+
+  const getCourse = async () => {
+    const result = await axios.get(apiCourse);
+    const course = result.data.map((item) => item.courseName);
+    setCourseName(course);
+  };
+
+  const getClass = async () => {
+    const result = await axios.get(apiClass);
+    const data = result.data.map((item) => item.classId);
+    setClassName(data);
+  };
+
+  useEffect(() => {
+    getCourse();
+    getClass();
+  }, []);
+
   return (
     <Layout style={{ minHeight: "100vh", minWidth: "98vw" }}>
       <SideBar />
@@ -31,14 +55,16 @@ function Statistics() {
             <DatePicker
               style={{ margin: "1rem" }}
               format={"DD-MM-YYYY HH:mm"}
+              inputReadOnly={true}
               allowClear={false}
-              defaultValue={dayjs("06-03-2025")}
+              defaultValue={dayjs()}
             />
             <DatePicker
               style={{ margin: "1rem" }}
               format={"DD-MM-YYYY HH:mm"}
+              inputReadOnly={true}
               allowClear={false}
-              defaultValue={dayjs("06-03-2025")}
+              defaultValue={dayjs()}
             />
           </div>
           <div className="bg-white backdrop-blur-sm hover:shadow-lg transition-all duration-300 p-10 rounded-2xl">

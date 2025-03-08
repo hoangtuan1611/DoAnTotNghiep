@@ -12,6 +12,11 @@ namespace backend.backend.Core.Services
       _repository = repository;
     }
 
+    public async Task<IEnumerable<Course>> GetCoursesByLecturerId(int id)
+    {
+      return await _repository.FindAsync(c => c.LecturerId == id);
+    }
+
     public override async Task<bool> Update(int id, Course course)
     {
       if (id != course.Id)

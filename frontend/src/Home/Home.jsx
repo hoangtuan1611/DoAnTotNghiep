@@ -19,6 +19,7 @@ function Home() {
     { time: "11:00", count: 20 },
     { time: "11:30", count: 15 },
   ]);
+  const maxStudents = 100;
 
   useEffect(() => {
     if (isStreaming) {
@@ -30,16 +31,20 @@ function Home() {
   }, [isStreaming]);
 
   useEffect(() => {
-    getTime();
-  }, []);
+    const getTime = () => {
+      const now = new Date();
+      const hours = now.getHours().toString();
+      const minutes = now.getMinutes().toString();
+      const currentTime = `${hours}:${minutes}`;
+      setCurrentTime(currentTime);
+      const secondsUntilNextMinute = 60 - now.getSeconds();
+      setTimeout(getTime, secondsUntilNextMinute * 1000);
+    };
 
-  const getTime = () => {
-    const now = new Date();
-    const hours = now.getHours().toString();
-    const minutes = now.getMinutes().toString();
-    const currentTime = `${hours}:${minutes}`;
-    setCurrentTime(currentTime);
-  };
+    getTime();
+
+    return () => clearTimeout(getTime);
+  }, []);
 
   return (
     <Layout
@@ -71,7 +76,9 @@ function Home() {
               </div>
               <div className="flex flex-1 justify-center">
                 <Activity className="text-green-600 mr-3.5" />
-                <p className="text-green-600 text-lg">Tỷ lệ tham gia 85%</p>
+                <p className="text-green-600 text-lg">
+                  Tỷ lệ tham gia {(currentCount / maxStudents) * 100}%
+                </p>
               </div>
               <div className="flex flex-1 justify-center">
                 <Clock className="text-purple-600 mr-3.5" />

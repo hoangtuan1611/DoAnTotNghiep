@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using backend.backend.Core.Interfaces;
 using backend.backend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,11 @@ namespace backend.backend.Infrastructure.Repositories
         _dbSet.Remove(model);
         await _dbContext.SaveChangesAsync();
       }
+    }
+
+    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    {
+      return await _dbSet.Where(predicate).ToListAsync();
     }
   }
 }
