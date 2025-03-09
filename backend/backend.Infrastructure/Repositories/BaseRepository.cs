@@ -48,6 +48,11 @@ namespace backend.backend.Infrastructure.Repositories
       }
     }
 
+    public async Task SaveAsync()
+    {
+      await _dbContext.SaveChangesAsync();
+    }
+
     public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
     {
       return await _dbSet.Where(predicate).ToListAsync();

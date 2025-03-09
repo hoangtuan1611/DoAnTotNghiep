@@ -38,11 +38,11 @@
 -- (3, 5), (3, 6), (3, 7), (3, 8), 
 -- (4, 5), (4, 6), (4, 7), (4, 8);
 
--- DECLARE @CourseId INT = 1;
--- SELECT c.Id AS CourseId, c.courseId, c.courseName, 
---        cl.Id AS ClassId, cl.classId, cl.maxStudents
--- FROM ClassCourse cc
--- JOIN Course c ON cc.CourseId = c.Id
--- JOIN Class cl ON cc.ClassId = cl.Id
--- WHERE c.Id = @CourseId;
+DECLARE @CourseId INT = 1;
+SELECT c.Id AS CourseId, c.courseId, c.courseName, 
+       cl.Id AS ClassId, cl.classId, cl.maxStudents
+FROM ClassCourse cc
+JOIN Course c ON cc.CourseId = c.Id
+JOIN Class cl ON cc.ClassId = cl.Id
+WHERE c.Id = @CourseId;
 

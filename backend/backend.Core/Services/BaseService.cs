@@ -27,7 +27,7 @@ namespace backend.backend.Core.Services
       throw new NotImplementedException();
     }
 
-    public async Task<bool> Create(T model)
+    public virtual async Task<bool> Create(T model)
     {
       await _repository.AddAsync(model);
       return true;

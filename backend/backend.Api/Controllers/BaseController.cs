@@ -50,13 +50,27 @@ namespace backend.backend.Api.Controllers
       }
       if (!ModelState.IsValid)
       {
-        return BadRequest(ModelState);
+        var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+        Console.WriteLine("Validation Errors: " + string.Join(", ", errors));  // Log ra lỗi
+        return BadRequest(new { message = "Validation failed", errors });
       }
       try
       {
         var convertResult = _mapper.Map<T>(dto);
         var result = await _service.Create(convertResult);
-        return result ? CreatedAtAction(nameof(GetById), new { id = convertResult.Id }, dto) : BadRequest("Failed to create");
+
+        if (result)
+        {
+          return CreatedAtAction(nameof(GetById), new { id = convertResult.Id }, dto);
+        }
+
+        var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+        if (errors.Any())
+        {
+          return BadRequest(new { message = "Validation failed", errors });
+        }
+
+        return BadRequest(new { message = "Failed to create the resource. Please check your input data." });
       }
       catch (DbUpdateException ex)
       {

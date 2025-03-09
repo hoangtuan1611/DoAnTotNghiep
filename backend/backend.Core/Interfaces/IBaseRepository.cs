@@ -9,6 +9,7 @@ namespace backend.backend.Core.Interfaces
     Task AddAsync(T model);
     Task UpdateAsync(T model);
     Task DeleteAsync(int id);
+    Task SaveAsync();
     Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
   }
 }

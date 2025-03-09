@@ -20,6 +20,16 @@ namespace backend.backend.Infrastructure.Mappings
       builder.Property(c => c.MaxStudents)
         .IsRequired();
 
+      // builder.Property(a => a.TimeStart)
+      //   .HasColumnType("datetime2(7)")
+      //   .HasDefaultValueSql("GETDATE()")
+      //   .IsRequired();
+
+      // builder.Property(a => a.TimeEnd)
+      //   .HasColumnType("datetime2(7)")
+      //   .HasDefaultValueSql("GETDATE()")
+      //   .IsRequired();
+
       builder.HasMany(c => c.Courses)
         .WithMany(c => c.Classes)
          .UsingEntity<Dictionary<string, object>>(

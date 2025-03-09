@@ -30,12 +30,13 @@ function AddCourse({ open, setOpen }) {
       const isSuccess = await createCourse(result);
 
       if (isSuccess) {
-        setConfirmLoading(false);
         setOpen(false);
         form.resetFields();
       }
     } catch (error) {
       console.log("Validation failed:", error);
+    } finally {
+      setConfirmLoading(false);
     }
   };
 
