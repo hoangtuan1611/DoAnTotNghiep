@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "week_number": 8,
+    "start_date": "30/12/2024",
+    "end_date": "05/01/2025",
+    "professor_name": "Phan Thị Thanh  Nga"
+  },
+  "schedule": {
+    "Thứ 2": {
+      "morning": [],
+      "afternoon": [],
+      "evening": []
+    },
+    "Thứ 3": {
+      "morning": [],
+      "afternoon": [
+        {
+          "subject": "Lập trình python",
+          "class_code": "24220CT3106D02",
+          "class_name": "CTK46-PM - nhom 2",
+          "period": "7->10",
+          "period_begin": 7,
+          "period_end": 10,
+          "time_begin": "13:00",
+          "time_end": "16:20",
+          "taught_lessons": "0/30 tiết",
+          "room": "A27.08",
+          "content": ""
+        }
+      ],
+      "evening": []
+    },
+    "Thứ 4": {
+      "morning": [],
+      "afternoon": [],
+      "evening": []
+    },
+    "Thứ 5": {
+      "morning": [],
+      "afternoon": [
+        {
+          "subject": "Lập trình python",
+          "class_code": "24220CT3106D02",
+          "class_name": "CTK46-PM - nhom 2",
+          "period": "7->10",
+          "period_begin": 7,
+          "period_end": 10,
+          "time_begin": "13:00",
+          "time_end": "16:20",
+          "taught_lessons": "4/30 tiết",
+          "room": "A27.08",
+          "content": ""
+        }
+      ],
+      "evening": []
+    },
+    "Thứ 6": {
+      "morning": [],
+      "afternoon": [],
+      "evening": []
+    },
+    "Thứ 7": {
+      "morning": [],
+      "afternoon": [],
+      "evening": []
+    },
+    "Chủ nhật": {
+      "morning": [],
+      "afternoon": [],
+      "evening": []
+    }
+  }
+}

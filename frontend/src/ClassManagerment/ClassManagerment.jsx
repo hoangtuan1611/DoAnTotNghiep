@@ -1,25 +1,23 @@
 import { Layout, Tabs, List, DatePicker } from "antd";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import SideBar from "../components/SideBar";
 import LineChartCustom from "../components/LineChartCustom";
 import AddClass from "../AddNew/AddClass";
-import AddCourse from "../AddNew/AddCourse";
 
 const classList = [
   {
     class: "CTK45A",
-    lecturer: "Nguyễn Văn A",
-    time: "7:30 - 9:30",
     room: "A24.1",
     maxStudents: 30,
+    courseName: "Lập trình python",
   },
   {
     class: "CTK45B",
-    lecturer: "Nguyễn Văn A",
-    time: "7:30 - 9:30",
     room: "A24.1",
     maxStudents: 25,
+    courseName: "Hướng đối tượng",
   },
 ];
 
@@ -48,25 +46,45 @@ const historyList = [
   },
 ];
 
+const timeTableApi = import.meta.env.VITE_API_TIMETABLE;
+const teacherCode = "011.034.00010";
+
 export const ClassContent = () => {
+  const [timeTable, setTimeTable] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const result = await axios.get(`${timeTableApi}${teacherCode}`);
+      setTimeTable(result.data);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="bg-blue-100 pt-6 pb-6 rounded-lg">
       <h1 className="mb-3 ml-6">Danh sách lớp học</h1>
       <div className="pl-6 pr-6 pt-1 pb-1 bg-white">
         <List
           itemLayout="horizontal"
-          dataSource={classList}
+          dataSource={timeTable}
           renderItem={(item, index) => (
             <List.Item className="bg-blue-50 flex flex-col !items-start rounded-lg mt-3 mb-3">
               <List.Item.Meta
                 className="pl-6"
-                title={<a href="">{item.class}</a>}
+                title={
+                  <a href="" style={{ whiteSpace: "nowrap" }}>
+                    {item.schedule.className} - {item.subject.subjectName}
+                  </a>
+                }
               />
               <div className="flex flex-col pl-6">
-                <span>
-                  {item.lecturer} - {item.time} - {item.room}
-                </span>
-                <span>Sỉ số: {item.maxStudents}</span>
+                <span>Phòng học: {item.room}</span>
+                <span>Sỉ số: 100</span>
               </div>
             </List.Item>
           )}
@@ -138,7 +156,6 @@ const items = [
 
 function ClassManagerment() {
   const [openClassModal, setOpenClassModal] = useState(false);
-  const [openCourseModal, setOpenCourseModal] = useState(false);
 
   return (
     <Layout style={{ minHeight: "100vh", minWidth: "100vw", display: "flex" }}>
@@ -157,13 +174,6 @@ function ClassManagerment() {
                 Thêm Lớp
               </button>
               <AddClass open={openClassModal} setOpen={setOpenClassModal} />
-              <button
-                onClick={() => setOpenCourseModal(true)}
-                className="bg-blue-500 w-32 text-white p-2.5 mt-2.5 rounded-md"
-              >
-                Thêm khóa học
-              </button>
-              <AddCourse open={openCourseModal} setOpen={setOpenCourseModal} />
             </div>
           </div>
           <div className="tab">

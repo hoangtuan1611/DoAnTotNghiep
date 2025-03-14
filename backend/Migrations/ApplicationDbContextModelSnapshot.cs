@@ -22,22 +22,7 @@ namespace backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ClassCourse", b =>
-                {
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClassId", "CourseId");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("ClassCourse");
-                });
-
-            modelBuilder.Entity("backend.backend.Core.Entities.AttendanceLog", b =>
+            modelBuilder.Entity("backend.backend.Core.Entities.Class", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,78 +30,181 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImgPath")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("StudentCount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TimeLog")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2(7)")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassId", "TimeLog")
-                        .IsUnique();
-
-                    b.ToTable("AttendanceLog", (string)null);
-                });
-
-            modelBuilder.Entity("backend.backend.Core.Entities.Course", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CourseId")
+                    b.Property<string>("ClassCode")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
-                    b.Property<string>("CourseName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("LecturerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LecturerId");
-
-                    b.ToTable("Course", (string)null);
-                });
-
-            modelBuilder.Entity("backend.backend.Core.Entities.Lecturer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AccountName")
+                    b.Property<string>("ClassName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                    b.HasKey("Id");
 
-                    b.Property<string>("Password")
+                    b.HasIndex("ClassCode")
+                        .IsUnique();
+
+                    b.ToTable("Classes", (string)null);
+                });
+
+            modelBuilder.Entity("backend.backend.Core.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndtDay")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(7)")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<DateTime>("StartDay")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(7)")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int>("WeekNum")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("Schedules", (string)null);
+                });
+
+            modelBuilder.Entity("backend.backend.Core.Entities.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("SubjectName")
                         .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects", (string)null);
+                });
+
+            modelBuilder.Entity("backend.backend.Core.Entities.Teacher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("TeacherCode")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<string>("TeacherName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeacherCode")
+                        .IsUnique();
+
+                    b.ToTable("Teachers", (string)null);
+                });
+
+            modelBuilder.Entity("backend.backend.Core.Entities.TimeTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DayOfWeek")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("PeriodBegin")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PeriodEnd")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Room")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TeacherCode")
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<int?>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("TimeBegin")
+                        .HasColumnType("TIME");
+
+                    b.Property<TimeSpan>("TimeEnd")
+                        .HasColumnType("TIME");
+
+                    b.Property<string>("TimeOfDay")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherCode");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("TimeTables", (string)null);
+                });
+
+            modelBuilder.Entity("backend.backend.Core.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(50)")
+                        .HasDefaultValue("Teacher");
+
+                    b.Property<string>("TeacherCode")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -125,75 +213,89 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Lecturer", (string)null);
+                    b.HasIndex("TeacherCode")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("backend.backend.Core.Entities.StudyClass", b =>
+            modelBuilder.Entity("backend.backend.Core.Entities.Schedule", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClassId")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
-
-                    b.Property<int>("MaxStudents")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Class", (string)null);
-                });
-
-            modelBuilder.Entity("ClassCourse", b =>
-                {
-                    b.HasOne("backend.backend.Core.Entities.StudyClass", null)
-                        .WithMany()
+                    b.HasOne("backend.backend.Core.Entities.Class", "Class")
+                        .WithMany("Schedules")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.backend.Core.Entities.Course", null)
+                    b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("backend.backend.Core.Entities.TimeTable", b =>
+                {
+                    b.HasOne("backend.backend.Core.Entities.Schedule", "Schedule")
+                        .WithMany("TimeTables")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.backend.Core.Entities.Subject", "Subject")
+                        .WithMany("TimeTables")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.backend.Core.Entities.Teacher", "Teacher")
                         .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("TeacherCode")
+                        .HasPrincipalKey("TeacherCode")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("backend.backend.Core.Entities.Teacher", null)
+                        .WithMany("TimeTables")
+                        .HasForeignKey("TeacherId");
+
+                    b.Navigation("Schedule");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("backend.backend.Core.Entities.AttendanceLog", b =>
+            modelBuilder.Entity("backend.backend.Core.Entities.User", b =>
                 {
-                    b.HasOne("backend.backend.Core.Entities.StudyClass", "StudyClass")
-                        .WithMany("AttendanceLog")
-                        .HasForeignKey("ClassId")
+                    b.HasOne("backend.backend.Core.Entities.Teacher", "Teacher")
+                        .WithOne("User")
+                        .HasForeignKey("backend.backend.Core.Entities.User", "TeacherCode")
+                        .HasPrincipalKey("backend.backend.Core.Entities.Teacher", "TeacherCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("StudyClass");
+                    b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("backend.backend.Core.Entities.Course", b =>
+            modelBuilder.Entity("backend.backend.Core.Entities.Class", b =>
                 {
-                    b.HasOne("backend.backend.Core.Entities.Lecturer", "Lecturer")
-                        .WithMany("Courses")
-                        .HasForeignKey("LecturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Lecturer");
+                    b.Navigation("Schedules");
                 });
 
-            modelBuilder.Entity("backend.backend.Core.Entities.Lecturer", b =>
+            modelBuilder.Entity("backend.backend.Core.Entities.Schedule", b =>
                 {
-                    b.Navigation("Courses");
+                    b.Navigation("TimeTables");
                 });
 
-            modelBuilder.Entity("backend.backend.Core.Entities.StudyClass", b =>
+            modelBuilder.Entity("backend.backend.Core.Entities.Subject", b =>
                 {
-                    b.Navigation("AttendanceLog");
+                    b.Navigation("TimeTables");
+                });
+
+            modelBuilder.Entity("backend.backend.Core.Entities.Teacher", b =>
+                {
+                    b.Navigation("TimeTables");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

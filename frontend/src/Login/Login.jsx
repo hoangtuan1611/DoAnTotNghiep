@@ -5,13 +5,12 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-  const api = import.meta.env.VITE_API_LECTURER;
-  const authen_api = `${api}/login`;
+  const api = import.meta.env.VITE_API_AUTH_USER;
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
     try {
-      const result = await axios.post(authen_api, values);
+      const result = await axios.post(api, values);
       if (result.data) {
         localStorage.setItem("Token", result.data.token);
         navigate("/home-page");

@@ -29,7 +29,6 @@ namespace backend.backend.Infrastructure.Repositories
     public async Task AddAsync(T model)
     {
       await _dbSet.AddAsync(model);
-      await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(T model)
@@ -44,7 +43,6 @@ namespace backend.backend.Infrastructure.Repositories
       if (model != null)
       {
         _dbSet.Remove(model);
-        await _dbContext.SaveChangesAsync();
       }
     }
 

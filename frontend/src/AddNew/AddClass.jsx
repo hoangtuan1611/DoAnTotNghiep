@@ -10,6 +10,7 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import axios from "axios";
+import AddCourse from "./AddCourse";
 
 const dataRoom = [
   {
@@ -42,6 +43,7 @@ function AddClass({ open, setOpen }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [dataCourse, setDataCourse] = useState([]);
   const [form] = Form.useForm();
+  const [openCourseModal, setOpenCourseModal] = useState(false);
 
   const apiCourse = import.meta.env.VITE_API_COURSE;
   const apiClass = import.meta.env.VITE_API_CLASS;
@@ -100,12 +102,20 @@ function AddClass({ open, setOpen }) {
 
   const handleCancel = () => {
     console.log("Clicked cancel button");
+    form.resetFields();
     setOpen(false);
+  };
+
+  const handleChange = (value) => {
+    if (value === "add_new") {
+      setOpenCourseModal(true);
+      form.resetFields(["course"]);
+    }
   };
 
   useEffect(() => {
     getAllCourse();
-  }, []);
+  }, [openCourseModal]);
 
   return (
     <Modal
@@ -124,24 +134,14 @@ function AddClass({ open, setOpen }) {
       >
         <Form.Item
           name="className"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập tên lớp!",
-            },
-          ]}
+          rules={[{ required: true, message: "Vui lòng nhập tên lớp!" }]}
           style={{ marginBottom: "1rem" }}
         >
           <Input style={{ padding: "0.5rem" }} placeholder="Tên lớp" />
         </Form.Item>
         <Form.Item
           name="maxStudents"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập số sinh viên!",
-            },
-          ]}
+          rules={[{ required: true, message: "Vui lòng nhập số sinh viên!" }]}
           style={{ marginBottom: "1rem" }}
         >
           <InputNumber
@@ -152,80 +152,73 @@ function AddClass({ open, setOpen }) {
         </Form.Item>
         <Form.Item
           name="subLecturerName"
-          rules={[
-            {
-              required: false,
-            },
-          ]}
+          rules={[{ required: false }]}
           style={{ marginBottom: "1rem" }}
         >
           <Input style={{ padding: "0.5rem" }} placeholder="Tên trợ giảng" />
         </Form.Item>
-        <Form.Item
-          name="timeStart"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập giờ bắt đầu!",
-            },
-          ]}
-          style={{ marginBottom: "1rem" }}
-        >
-          <DatePicker
-            style={{ width: "100%", height: "100%", padding: "0.5rem" }}
-            format={"DD-MM-YYYY"}
-            inputReadOnly={true}
-            allowClear={false}
-            defaultValue={dayjs()}
-          />
-        </Form.Item>
+        <div className="flex gap-2">
+          <Form.Item
+            name="timeStart"
+            rules={[{ required: true, message: "Vui lòng nhập giờ bắt đầu!" }]}
+            style={{ marginBottom: "1rem", flex: 1 }}
+          >
+            <DatePicker
+              style={{ width: "100%", height: "100%", padding: "0.5rem" }}
+              format={"DD-MM-YYYY"}
+              inputReadOnly={true}
+              allowClear={false}
+              placeholder="Chọn giờ bắt đầu"
+            />
+          </Form.Item>
+          <Form.Item
+            name="timeEnd"
+            rules={[{ required: true, message: "Vui lòng nhập giờ bắt đầu!" }]}
+            style={{ marginBottom: "1rem", flex: 1 }}
+          >
+            <DatePicker
+              style={{ width: "100%", height: "100%", padding: "0.5rem" }}
+              format={"DD-MM-YYYY"}
+              inputReadOnly={true}
+              allowClear={false}
+              placeholder="Chọn giờ kết thúc"
+            />
+          </Form.Item>
+        </div>
         <Form.Item
           name="classRoom"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng chọn phòng học!",
-            },
-          ]}
+          rules={[{ required: true, message: "Vui lòng chọn phòng học!" }]}
           style={{ marginBottom: "1rem" }}
         >
           <Select
-            showSearch
             style={{ width: "100%", height: "100%" }}
             placeholder="Phòng học"
             optionFilterProp="label"
-            filterSort={(a, b) => {
-              (a?.label ?? "")
-                .toLowerCase()
-                .localeCompare((b?.label ?? "").toLowerCase());
-            }}
+            filterSort={(a, b) => a.label.localeCompare(b.label)}
             options={dataRoom}
           />
         </Form.Item>
         <Form.Item
           name="course"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng chọn khóa học!",
-            },
-          ]}
+          rules={[{ required: true, message: "Vui lòng chọn khóa học!" }]}
           style={{ marginBottom: "1rem" }}
         >
           <Select
-            showSearch
-            fieldNames={{ value: "id", label: "courseName" }}
             style={{ width: "100%", height: "100%" }}
             placeholder="Khóa học"
             optionFilterProp="label"
-            filterSort={(a, b) => {
-              (a?.label ?? "")
-                .toLowerCase()
-                .localeCompare((b?.label ?? "").toLowerCase());
-            }}
-            options={dataCourse}
+            filterSort={(a, b) => a.label.localeCompare(b.label)}
+            options={[
+              ...dataCourse.map((course) => ({
+                value: course.id,
+                label: course.courseName,
+              })),
+              { value: "add_new", label: "➕ Thêm mới khóa học" },
+            ]}
+            onChange={handleChange}
           />
         </Form.Item>
+        <AddCourse open={openCourseModal} setOpen={setOpenCourseModal} />
       </Form>
     </Modal>
   );

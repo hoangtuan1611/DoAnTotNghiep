@@ -41,6 +41,7 @@ function AddCourse({ open, setOpen }) {
   };
 
   const handleCancel = () => {
+    form.resetFields();
     setOpen(false);
   };
 
@@ -52,6 +53,7 @@ function AddCourse({ open, setOpen }) {
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
       okText={"Đăng ký"}
+      centered
     >
       <Form
         form={form}

@@ -11,7 +11,7 @@ namespace backend.backend.Core.Services
       _repository = repository;
     }
 
-    public async Task<IEnumerable<T>> GetAll()
+    public virtual async Task<IEnumerable<T>> GetAll()
     {
       return await _repository.GetAllAsync();
     }
@@ -19,18 +19,6 @@ namespace backend.backend.Core.Services
     public async Task<T> GetById(int id)
     {
       return await _repository.GetByIdAsync(id);
-    }
-
-    public virtual async Task<bool> Update(int id, T model)
-    {
-      await Task.CompletedTask;
-      throw new NotImplementedException();
-    }
-
-    public virtual async Task<bool> Create(T model)
-    {
-      await _repository.AddAsync(model);
-      return true;
     }
 
     public async Task<bool> Delete(int id)
