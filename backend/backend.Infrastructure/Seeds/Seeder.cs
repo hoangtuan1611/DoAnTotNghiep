@@ -52,7 +52,7 @@ namespace backend.backend.Infrastructure.Seeds
             {
               WeekNum = scheduleData.Metadata.WeekNumber,
               StartDay = DateTime.ParseExact(scheduleData.Metadata.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture),
-              EndtDay = DateTime.ParseExact(scheduleData.Metadata.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture),
+              EndDay = DateTime.ParseExact(scheduleData.Metadata.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture),
               ClassId = existingClass.Id,
             };
 

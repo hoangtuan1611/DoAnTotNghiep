@@ -9,6 +9,7 @@ import {
   UserOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  TableOutlined,
 } from "@ant-design/icons";
 import { motion } from "framer-motion";
 
@@ -41,10 +42,11 @@ const SideBar = React.memo(() => {
     getItem("Home", "1", <PieChartOutlined />),
     getItem("Class managerment", "2", <DesktopOutlined />),
     getItem("Statistics", "3", <FileOutlined />),
+    getItem("Schedule", "4", <TableOutlined />),
     getItem("User", "sub1", <UserOutlined />, [
-      getItem("Tom", "4"),
-      getItem("Bill", "5"),
-      getItem("Alex", "6"),
+      getItem("Tom", "5"),
+      getItem("Bill", "6"),
+      getItem("Alex", "7"),
     ]),
     getItem("Team", "sub2", <TeamOutlined />, [
       getItem("Team 1", "7"),
@@ -62,6 +64,10 @@ const SideBar = React.memo(() => {
         break;
       case "3":
         navigate("/statistics");
+        break;
+
+      case "4":
+        navigate("/schedule");
         break;
 
       default:

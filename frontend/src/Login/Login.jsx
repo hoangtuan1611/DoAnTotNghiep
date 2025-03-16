@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
 import { useNavigate, Link } from "react-router-dom";
@@ -13,12 +13,18 @@ function Login() {
       const result = await axios.post(api, values);
       if (result.data) {
         localStorage.setItem("Token", result.data.token);
-        navigate("/home-page");
+        localStorage.setItem("TeacherName", result.data.teacherName);
+        localStorage.setItem("TeacherCode", result.data.teacherCode);
+        navigate("/schedule");
       }
     } catch (error) {
       alert("Đăng nhập thất bại");
     }
   };
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   return (
     <div

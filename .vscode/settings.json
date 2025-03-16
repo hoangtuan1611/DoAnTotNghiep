@@ -9,5 +9,6 @@
   },
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
-  }
+  },
+  "workbench.colorCustomizations": {}
 }

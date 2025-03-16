@@ -20,7 +20,7 @@ namespace backend.backend.Infrastructure.Mappings
         .HasDefaultValueSql("GETDATE()")
         .IsRequired();
 
-      builder.Property(s => s.EndtDay)
+      builder.Property(s => s.EndDay)
         .HasColumnType("datetime2(7)")
         .HasDefaultValueSql("GETDATE()")
         .IsRequired();
