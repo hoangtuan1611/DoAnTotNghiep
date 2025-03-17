@@ -36,7 +36,7 @@ namespace backend.backend.Infrastructure.Seeds
             string className = item.ClassName ?? "Unknown";
 
             var existingClass = await _dbcontext.Classes.FirstOrDefaultAsync(c => c.ClassCode == classCode)
-            ?? (await _dbcontext.Classes.AddAsync(new Class { ClassCode = classCode, ClassName = className })).Entity;
+            ?? (await _dbcontext.Classes.AddAsync(new Class { ClassCode = classCode, ClassName = className, MaxStudents = 0 })).Entity;
 
             await _dbcontext.SaveChangesAsync();
 

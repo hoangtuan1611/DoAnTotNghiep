@@ -14,7 +14,8 @@ namespace backend.backend.Core.Mappers
       CreateMap<User, UserDto>().ReverseMap();
 
       CreateMap<Schedule, ScheduleDto>()
-        .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.Class.ClassName));
+        .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.Class.ClassName))
+        .ForMember(dest => dest.MaxStudents, opt => opt.MapFrom(src => src.Class.MaxStudents));
 
       CreateMap<TimeTableDto, TimeTable>()
           .ForMember(dest => dest.Schedule, opt => opt.Ignore());

@@ -4,6 +4,6 @@ namespace backend.backend.Core.Interfaces.IServices
 {
   public interface IClassService : IBaseService<Class>
   {
-
+    Task<bool> Update(int id, Class model);
   }
 }

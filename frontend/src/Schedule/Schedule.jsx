@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Layout } from "antd";
 import axios from "axios";
 import SideBar from "../components/SideBar";
+import UpdateClass from "./UpdateClass";
 
 function Schedule() {
   const [weekNum, setWeekNum] = useState(0);
   const [startDate, setStartDate] = useState("00/00/0000");
   const [endDate, setEndDate] = useState("00/00/0000");
   const [timeTable, setTimeTable] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState();
 
   const days = [
     "Thứ 2",
@@ -49,16 +52,14 @@ function Schedule() {
     }
   };
 
-  const handleCellClick = (schedule) => {
-    console.log("Lịch học:", schedule);
-    alert(
-      `Môn: ${schedule[0].subject.subjectName}\nLớp: ${schedule[0].schedule.className}`
-    );
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleCellClick = (item) => {
+    setSelectedItem(item);
+    setOpen(true);
+  };
 
   return (
     <Layout
@@ -113,29 +114,35 @@ function Schedule() {
                         );
 
                         return (
-                          <td
-                            key={timeOfDay}
-                            className="border border-gray-300 p-2 h-28 cursor-pointer"
-                            onClick={() =>
-                              schedule.length > 0 && handleCellClick(schedule)
-                            }
-                          >
-                            {schedule.length > 0
-                              ? schedule.map((item, idx) => (
-                                  <div key={idx}>
-                                    <p className="text-red-600 text-base">
-                                      {item.subject.subjectName}
-                                    </p>
-                                    <p>- Lớp: {item.schedule.className}</p>
-                                    <p>
-                                      - Tiết: {item.periodBegin} -{" "}
-                                      {item.periodEnd}
-                                    </p>
-                                    <p>- Phòng: {item.room}</p>
-                                  </div>
-                                ))
-                              : null}
-                          </td>
+                          <>
+                            <td
+                              key={timeOfDay}
+                              className="border border-gray-300 p-2 h-32 cursor-pointer"
+                              onClick={() =>
+                                schedule.length > 0 &&
+                                handleCellClick(schedule[0])
+                              }
+                            >
+                              {schedule.length > 0
+                                ? schedule.map((item, idx) => (
+                                    <div key={idx}>
+                                      <p className="text-red-600 text-base">
+                                        {item.subject.subjectName}
+                                      </p>
+                                      <p>- Lớp: {item.schedule.className}</p>
+                                      <p>
+                                        - Tiết: {item.periodBegin} -{" "}
+                                        {item.periodEnd}
+                                      </p>
+                                      <p>- Phòng: {item.room}</p>
+                                      <p>
+                                        - Sỉ số: {item.schedule.maxStudents}
+                                      </p>
+                                    </div>
+                                  ))
+                                : null}
+                            </td>
+                          </>
                         );
                       })}
                     </tr>
@@ -146,6 +153,14 @@ function Schedule() {
           </div>
         </div>
       </Layout>
+      {open && selectedItem && (
+        <UpdateClass
+          item={selectedItem}
+          open={open}
+          setOpen={setOpen}
+          fetchData={fetchData}
+        />
+      )}
     </Layout>
   );
 }

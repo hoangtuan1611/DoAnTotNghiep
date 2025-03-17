@@ -8,5 +8,6 @@ namespace backend.backend.Core.DTOs
     public DateTime EndDay { get; set; }
     public int ClassId { get; set; }
     public string ClassName { get; set; }
+    public int MaxStudents { get; set; }
   }
 }

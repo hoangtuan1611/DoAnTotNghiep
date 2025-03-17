@@ -23,6 +23,10 @@ namespace backend.backend.Infrastructure.Mappings
       builder.Property(c => c.ClassName)
         .HasMaxLength(100)
         .IsRequired();
+
+      builder.Property(c => c.MaxStudents)
+        .HasDefaultValue(0)
+        .IsRequired();
     }
   }
 }
