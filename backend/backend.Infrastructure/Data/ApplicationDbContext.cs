@@ -11,6 +11,7 @@ namespace backend.backend.Infrastructure.Data
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<TimeTable> TimeTables { get; set; }
+    public DbSet<AttendanceLog> AttendanceLogs { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -22,6 +23,7 @@ namespace backend.backend.Infrastructure.Data
       modelBuilder.ApplyConfiguration(new TeacherMapping());
       modelBuilder.ApplyConfiguration(new TimeTableMapping());
       modelBuilder.ApplyConfiguration(new UserMapping());
+      modelBuilder.ApplyConfiguration(new AttendaceLogMapping());
 
       base.OnModelCreating(modelBuilder);
     }

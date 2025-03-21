@@ -6,6 +6,7 @@ import Home from "./Home/Home";
 import ClassManagerment from "./ClassManagerment/ClassManagerment";
 import Statistics from "./Statistics/Statistics";
 import Schedule from "./Schedule/Schedule";
+import History from "./History/History";
 
 function App() {
   return (
@@ -42,6 +43,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Schedule />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/history"
+        element={
+          <ProtectedRoute>
+            <History />
           </ProtectedRoute>
         }
       />

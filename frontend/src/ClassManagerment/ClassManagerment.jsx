@@ -1,188 +1,97 @@
-import { Layout, Tabs, List, DatePicker } from "antd";
-import dayjs from "dayjs";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import SideBar from "../components/SideBar";
-import LineChartCustom from "../components/LineChartCustom";
-import AddClass from "../AddNew/AddClass";
+import { Layout, List } from 'antd'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import SideBar from '../components/SideBar'
+import History from '../History/History'
 
-const classList = [
-  {
-    class: "CTK45A",
-    room: "A24.1",
-    maxStudents: 30,
-    courseName: "Lập trình python",
-  },
-  {
-    class: "CTK45B",
-    room: "A24.1",
-    maxStudents: 25,
-    courseName: "Hướng đối tượng",
-  },
-];
+const timeTableApi = import.meta.env.VITE_API_TIMETABLE
+const teacherCode = localStorage.getItem('TeacherCode') ?? '000.000.00000'
 
-const historyList = [
-  {
-    class: "CTK45A",
-    time: "7:30 - 9:30",
-    data: [
-      { time: "07:30", count: 10 },
-      { time: "08:00", count: 18 },
-      { time: "08:30", count: 22 },
-      { time: "09:00", count: 25 },
-      { time: "09:30", count: 30 },
-    ],
-  },
-  {
-    class: "CTK45B",
-    time: "7:30 - 9:30",
-    data: [
-      { time: "07:30", count: 10 },
-      { time: "08:00", count: 18 },
-      { time: "08:30", count: 22 },
-      { time: "09:00", count: 25 },
-      { time: "09:30", count: 30 },
-    ],
-  },
-];
+function ClassManagerment() {
+  const [timeTable, setTimeTable] = useState([])
 
-const timeTableApi = import.meta.env.VITE_API_TIMETABLE;
-const teacherCode = "011.034.00010";
-
-export const ClassContent = () => {
-  const [timeTable, setTimeTable] = useState([]);
+  const navigate = useNavigate()
 
   const fetchData = async () => {
     try {
-      const result = await axios.get(`${timeTableApi}${teacherCode}`);
-      setTimeTable(result.data);
+      var result = await axios.get(`${timeTableApi}/${teacherCode}`)
+      if (result.data && result.data.length > 1) {
+        setTimeTable(result.data)
+      } else {
+        console.log('Fail')
+        setTimeTable([])
+      }
     } catch (error) {
-      console.log("Error: ", error);
+      console.log('Fail to load data')
+      setTimeTable([])
     }
-  };
+  }
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
+
+  const handleDetail = (item) => {
+    navigate(
+      `/history?subject=${encodeURIComponent(
+        item.subject.subjectName
+      )}&class=${encodeURIComponent(item.schedule.className)}&scheduleId=${
+        item.schedule.id
+      }&maxStudents=${item.schedule.maxStudents}`
+    )
+  }
 
   return (
-    <div className="bg-blue-100 pt-6 pb-6 rounded-lg">
-      <h1 className="mb-3 ml-6">Danh sách lớp học</h1>
-      <div className="pl-6 pr-6 pt-1 pb-1 bg-white">
-        <List
-          itemLayout="horizontal"
-          dataSource={timeTable}
-          renderItem={(item, index) => (
-            <List.Item className="bg-blue-50 flex flex-col !items-start rounded-lg mt-3 mb-3">
-              <List.Item.Meta
-                className="pl-6"
-                title={
-                  <a href="" style={{ whiteSpace: "nowrap" }}>
-                    {item.schedule.className} - {item.subject.subjectName}
-                  </a>
-                }
-              />
-              <div className="flex flex-col pl-6">
-                <span>Phòng học: {item.room}</span>
-                <span>Sỉ số: 100</span>
-              </div>
-            </List.Item>
-          )}
-        />
-      </div>
-    </div>
-  );
-};
-
-export const HistoryContent = () => {
-  return (
-    <div className="flex gap-6">
-      <div className="flex-1 rounded-lg bg-white">
-        <div className="flex justify-between items-start h-fit">
-          <p className="text-indigo-900 p-3 text-base">Lịch sử lớp học</p>
-          <DatePicker
-            style={{ margin: "1rem" }}
-            format={"DD-MM-YYYY"}
-            inputReadOnly={true}
-            allowClear={false}
-            defaultValue={dayjs()}
-          />
-        </div>
-        <div className="ml-5 mr-5">
-          <List
-            itemLayout="horizontal"
-            dataSource={classList}
-            renderItem={(item, index) => (
-              <List.Item className="bg-blue-50 flex flex-col !items-start rounded-lg mt-3 mb-3">
-                <List.Item.Meta
-                  className="pl-6"
-                  title={<a href="">{item.class}</a>}
-                />
-                <div className="flex flex-col pl-6">
-                  <span>
-                    {item.lecturer} - {item.time} - {item.room}
-                  </span>
-                  <span>Sỉ số: {item.maxStudents}</span>
-                </div>
-              </List.Item>
-            )}
-          />
-        </div>
-      </div>
-      <div className="chart flex-2 rounded-lg bg-white">
-        <p className="text-indigo-900 p-3 text-base">
-          Thống kê điểm danh lớp {historyList[0].class}
-        </p>
-        <div className="h-72">
-          <LineChartCustom data={historyList[0].data} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const items = [
-  {
-    key: "1",
-    label: "Quản lý lớp học",
-    children: <ClassContent />,
-  },
-  {
-    key: "2",
-    label: "Lịch sử lớp học",
-    children: <HistoryContent />,
-  },
-];
-
-function ClassManagerment() {
-  const [openClassModal, setOpenClassModal] = useState(false);
-
-  return (
-    <Layout style={{ minHeight: "100vh", minWidth: "100vw", display: "flex" }}>
+    <Layout style={{ minHeight: '100vh', minWidth: '100vw', display: 'flex' }}>
       <SideBar />
       <Layout style={{ flex: 1 }}>
         <div className="h-auto bg-gradient-to-br from-blue-50 to-indigo-50 p-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-indigo-900 font-bold text-3xl">
+          <div className="flex items-center justify-between">
+            <h1 className="mb-6 text-3xl font-bold text-indigo-900">
               Quản lý lớp học
             </h1>
-            <div>
-              <button
-                onClick={() => setOpenClassModal(true)}
-                className="bg-blue-500 w-32 text-white p-2.5 mt-2.5 mr-2.5 rounded-md"
-              >
-                Thêm Lớp
-              </button>
-              <AddClass open={openClassModal} setOpen={setOpenClassModal} />
-            </div>
           </div>
           <div className="tab">
-            <Tabs defaultActiveKey="1" items={items} />
+            <div className="rounded-lg bg-blue-100 pt-6 pb-6">
+              <h1 className="mb-3 ml-6">Danh sách lớp học</h1>
+              <div className="bg-white pt-1 pr-6 pb-1 pl-6">
+                <List
+                  itemLayout="horizontal"
+                  dataSource={timeTable}
+                  renderItem={(item, index) => (
+                    <List.Item
+                      onClick={() => handleDetail(item)}
+                      className="mt-3 mb-3 flex flex-col !items-start rounded-lg bg-blue-50"
+                    >
+                      <List.Item.Meta
+                        className="pl-6"
+                        title={
+                          <span className="text-base text-indigo-900">
+                            {item.subject.subjectName}
+                          </span>
+                        }
+                        style={{ whiteSpace: 'nowrap' }}
+                      />
+                      <div className="flex flex-col pl-6">
+                        <span className="text-base text-indigo-900">
+                          {item.schedule.className}
+                        </span>
+                        <span>
+                          Phòng: {item.room} - Sỉ số:{' '}
+                          {item.schedule.maxStudents}
+                        </span>
+                      </div>
+                    </List.Item>
+                  )}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </Layout>
     </Layout>
-  );
+  )
 }
 
-export default ClassManagerment;
+export default ClassManagerment

@@ -1,50 +1,50 @@
-import React, { useState } from "react";
-import { Modal, Form, Input, message, InputNumber } from "antd";
-import axios from "axios";
+import React, { useState } from 'react'
+import { Modal, Form, Input, message, InputNumber } from 'antd'
+import axios from 'axios'
 
 function UpdateClass({ item, open, setOpen, fetchData }) {
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [form] = Form.useForm();
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const [form] = Form.useForm()
 
-  const apiClass = import.meta.env.VITE_API_CLASS;
+  const apiClass = import.meta.env.VITE_API_CLASS
 
   const handleUpdate = async (valuse) => {
     try {
-      const api = `${apiClass}/${item.schedule.classId}`;
-      await axios.put(api, valuse);
-      message.success("Cập nhật thành công!");
-      return true;
+      const api = `${apiClass}/${item.schedule.classId}`
+      await axios.put(api, valuse)
+      message.success('Cập nhật thành công!')
+      return true
     } catch (error) {
-      console.error("Validation failed:", error);
-      message.error("Cập nhật thất bại. Vui lòng thử lại!");
-      return false;
+      console.error('Validation failed:', error)
+      message.error('Cập nhật thất bại. Vui lòng thử lại!')
+      return false
     }
-  };
+  }
 
   const handleOk = async () => {
     try {
-      setConfirmLoading(true);
+      setConfirmLoading(true)
 
-      const values = await form.validateFields();
-      const result = { ...values, id: `${item.schedule.classId}` };
-      const isSuccess = await handleUpdate(result);
+      const values = await form.validateFields()
+      const result = { ...values, id: `${item.schedule.classId}` }
+      const isSuccess = await handleUpdate(result)
 
       if (isSuccess) {
-        setOpen(false);
-        form.resetFields();
+        setOpen(false)
+        form.resetFields()
       }
-      fetchData();
+      fetchData()
     } catch (error) {
-      console.log("Validation failed:", error);
+      console.log('Validation failed:', error)
     } finally {
-      setConfirmLoading(false);
+      setConfirmLoading(false)
     }
-  };
+  }
 
   const handleCancel = () => {
-    form.resetFields();
-    setOpen(false);
-  };
+    form.resetFields()
+    setOpen(false)
+  }
 
   return (
     <Modal
@@ -53,29 +53,30 @@ function UpdateClass({ item, open, setOpen, fetchData }) {
       onOk={handleOk}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
-      okText={"Cập nhật"}
+      okText={'Cập nhật'}
+      cancelText={'Hủy'}
       centered
-      style={{ padding: "0.6rem" }}
+      style={{ padding: '0.6rem' }}
     >
       <Form
         form={form}
         initialValues={{ remember: true }}
-        style={{ maxWidth: 360, margin: "auto" }}
+        style={{ maxWidth: 360, margin: 'auto' }}
       >
         <Form.Item
           name="maxStudents"
-          rules={[{ required: true, message: "Vui lòng nhập số sinh viên!" }]}
-          style={{ marginBottom: "1rem" }}
+          rules={[{ required: true, message: 'Vui lòng nhập số sinh viên!' }]}
+          style={{ marginBottom: '1rem' }}
         >
           <InputNumber
-            style={{ width: "100%", height: "100%", padding: "0.3rem" }}
+            style={{ width: '100%', height: '100%', padding: '0.3rem' }}
             min={1}
             placeholder="Nhập số lượng sinh viên"
           />
         </Form.Item>
       </Form>
     </Modal>
-  );
+  )
 }
 
-export default UpdateClass;
+export default UpdateClass

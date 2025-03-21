@@ -11,6 +11,7 @@ namespace backend.backend.Core.Mappers
       CreateMap<Teacher, TeacherDto>().ReverseMap();
       CreateMap<Class, ClassDto>().ReverseMap();
       CreateMap<Subject, SubjectDto>().ReverseMap();
+      CreateMap<AttendanceLog, AttendaceLogDto>().ReverseMap();
       CreateMap<User, UserDto>().ReverseMap();
 
       CreateMap<Schedule, ScheduleDto>()
