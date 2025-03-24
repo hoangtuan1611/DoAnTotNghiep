@@ -3,6 +3,9 @@ import { UserCheck, Activity, Clock } from "lucide-react";
 import SideBar from "../components/SideBar";
 import { Layout } from "antd";
 import LineChartCustom from "../components/LineChartCustom";
+import VideoStream from "../components/VideoStream";
+import WebRTCStream from "../components/WebRTCStream";
+import StudentCountDisplay from "../components/student_count";
 
 function Home() {
   const [isStreaming, setIsStreaming] = useState(false);
@@ -21,15 +24,55 @@ function Home() {
   ]);
   const maxStudents = 100;
 
+  // useEffect(() => {
+  //   if (isStreaming) {
+  //     const interval = setInterval(() => {
+  //       setCurrentCount((prev) => prev + Math.floor(Math.random() * 3) - 1);
+  //     }, 2000);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [isStreaming]);
+  // useEffect(() => {
+  //   const fetchClass0Count = async () => {
+  //     try {
+  //       console.log("Fetching class 0 count..."); // Log để kiểm tra hàm được gọi
+  //       const response = await fetch("http://localhost:5000/student_count");
+  //       const data = await response.json();
+  //       console.log("Fetched count:", data.count); // Log để kiểm tra dữ liệu nhận được
+  //       setCurrentCount(data.count);
+  //     } catch (error) {
+  //       console.error("Error fetching class 0 count:", error);
+  //     }
+  //   };
+  
+  //   if (isStreaming) {
+  //     console.log("Streaming is active, starting interval..."); // Log khi streaming bắt đầu
+  //     const interval = setInterval(fetchClass0Count, 2000);
+  //     return () => {
+  //       console.log("Clearing interval..."); // Log khi interval bị xóa
+  //       clearInterval(interval);
+  //     };
+  //   } else {
+  //     console.log("Streaming is inactive."); // Log khi streaming không hoạt động
+  //   }
+  // }, [isStreaming]);
   useEffect(() => {
+    const fetchClass0Count = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/student_count");
+        const data = await response.json();
+        console.log("Fetched count:", data.count); // Thêm log để kiểm tra
+        setCurrentCount(data.count);
+      } catch (error) {
+        console.error("Error fetching class 0 count:", error);
+      }
+    };
+  
     if (isStreaming) {
-      const interval = setInterval(() => {
-        setCurrentCount((prev) => prev + Math.floor(Math.random() * 3) - 1);
-      }, 2000);
+      const interval = setInterval(fetchClass0Count, 2000);
       return () => clearInterval(interval);
     }
   }, [isStreaming]);
-
   useEffect(() => {
     const getTime = () => {
       const now = new Date();
@@ -106,6 +149,12 @@ function Home() {
                   {isStreaming ? "Tắt camera" : "Bật camera"}
                 </button>
               </div>
+            </div>
+
+            <div className="camera flex-1 w-[70vw] bg-white/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 p-3 m-auto">
+              <p className="mb-3 text-base text-indigo-900">Theo dõi camera</p>
+              {/* <WebRTCStream /> */}
+              <img src="http://localhost:5000/video_feed" alt="Video Stream" className="w-full h-full" />
             </div>
             <div className="chart flex-1 w-[70vw] bg-white/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300 p-3 m-auto">
               <p className="mb-3 text-base text-indigo-900">Biểu đồ theo dõi</p>

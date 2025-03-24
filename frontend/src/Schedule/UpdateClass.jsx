@@ -54,6 +54,7 @@ function UpdateClass({ item, open, setOpen, fetchData }) {
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
       okText={"Cập nhật"}
+      cancelText={"Hủy"}
       centered
       style={{ padding: "0.6rem" }}
     >

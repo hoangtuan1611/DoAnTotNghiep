@@ -35,7 +35,7 @@ function Login() {
         className="text-2xl font-bold text-center"
         style={{ paddingTop: "2rem", color: "#555" }}
       >
-        HỆ THÔNG QUẢN LÝ SINH VIÊN THỰC HÀNH
+        ỨNG DỤNG QUẢN LÝ SINH VIÊN THỰC HÀNH
       </h2>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <h2
